@@ -11,8 +11,8 @@ export default App
 function App() {
 
   // authenticationStatus state shows if user has logged in and has a valid session cookie. 
-  // The state is determined by a fetch call from frontend application
-  // rerenderCount state used to show how many times app has rerendered after checking authentication
+  // The state is determined by a fetch call from frontend application after render.
+  // rerenderCount state used to show how many times app has rerendered after checking authentication.
   // The state is used to prevent extra fetch calls.
 
   const [authenticationStatus, setAuthenticationStatus] = useState("Authenticating");

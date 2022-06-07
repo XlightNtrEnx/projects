@@ -21,9 +21,9 @@ function LoginForm() {
 
     // Arguments for fetching to login API
 
-    const url = "/api/login/" 
-    const data = {}
-    const csrftoken = Cookies.get("csrftoken") // Backend provides the csrftoken in a cookie 
+    const url = "/api/login/"; 
+    const data = {};
+    const csrftoken = Cookies.get("csrftoken"); // Backend provides the csrftoken in a cookie 
 
     /* Loops through user-submitted form to retrieve only input names and values 
     and puts them into data object */
@@ -76,5 +76,5 @@ function LoginForm() {
       </Button>
     </form>
   )
-  
+
 }

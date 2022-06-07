@@ -19,6 +19,6 @@ from django.contrib.auth import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')), # All the views for the frontend to interact with the backend
-    path('', include('frontend.urls')), # Only one view to return a javascript frontend application 
+    path('api/', include('api.urls')), # All the views for the frontend to interact with the backend.
+    path('', include('frontend.urls')), # Only one view to return a javascript frontend application.
 ]

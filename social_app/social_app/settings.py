@@ -60,7 +60,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
 
         # Tells django where to look for template when a view searches for 
-        # a template
+        # a template.
 
         'DIRS': [os.path.join(BASE_DIR, 'frontend/build')],
         'APP_DIRS': True,
@@ -79,14 +79,14 @@ WSGI_APPLICATION = 'social_app.wsgi.application'
 
 REST_FRAMEWORK = {
 
-    # Sets DRF APIs' default authentication methods
+    # Sets DRF APIs' default authentication methods.
 
     'DEFAULT_AUTHENTICATION_CLASES': [
         'rest_framework.authenticatSion.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
 
-    # Sets DRF APIs' default amount of table rows to be returned per page
+    # Sets DRF APIs' default amount of table rows to be returned per page.
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
