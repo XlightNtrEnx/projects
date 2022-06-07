@@ -1,21 +1,22 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
 import Cookies from 'js-cookie';
 
 export default LoginPage
 
 function LoginPage() {
+
   return (
     <LoginForm />
   )
-}
 
+}
+  
 function LoginForm() {
 
-  /* handleSubmit is responsible for fetching to login API and preventing event default
-  using form data upon clicking submit button */
-  
+  /* handleSubmit is responsible for fetching to login API using form data 
+  and preventing event default upon clicking submit button */
+
   function handleSubmit(event) {
 
     // Arguments for fetching to login API
@@ -30,10 +31,10 @@ function LoginForm() {
     for (let i=0; i<event.target.length; i++) {                                
       if (event.target[i].nodeName == "INPUT") {
         data[event.target[i].name] = event.target[i].value;   
-      }
+      }  
     }
-    
-    // Prevents browser from refreshing page on submit and fetches to login API
+     
+    // Prevents browser from executing default on submit and fetches to login API
 
     event.preventDefault()
     fetch(
@@ -41,22 +42,13 @@ function LoginForm() {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-CSRFToken": csrftoken,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": csrftoken,
         },
         body: new URLSearchParams(data), // Backend accepts only the above content-type
       }
     ).then(
-      () => {
-
-        // Condition prevents user from immediately logging out if their browser started from logout url
-
-        if (window.location.href.match("logout") == null) {
-          window.location.reload()
-        } else {
-          window.location.href = "/"
-        }
-      }
+      () => window.location.reload()
     )
     
   }
@@ -84,4 +76,5 @@ function LoginForm() {
       </Button>
     </form>
   )
+  
 }

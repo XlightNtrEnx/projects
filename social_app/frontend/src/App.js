@@ -1,34 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
-import Home from './page/HomePage.js';
-import {
-  Routes,
-  Route,
-  Link,
-  BrowserRouter
-} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import LoginPage from './page/LoginPage';
+import LoginPage from './components/LoginPage';
+import AuthenticatedPages from './components/AuthenticatedPages.js'
+import HoldingPage from './components/HoldingPage.js'
 
 export default App
 
+// App only renders components from ./components
+
 function App() {
 
-  const [authenticationStatus, setAuthenticationStatus] = useState("Authenticating");
-  const [redirectCount, setRedirectCount] = useState(0);
+  // authenticationStatus state shows if user has logged in and has a valid session cookie. 
+  // The state is determined by a fetch call from frontend application
+  // rerenderCount state used to show how many times app has rerendered after checking authentication
+  // The state is used to prevent extra fetch calls.
 
-  // After app has rendered with Authenticating page, browser will fetch to api/verifyauthenticated with get request using below useEffect()
-  // if status = 200, set authenticationstatus to authenticated which will trigger authenticated page to render
-  // else, set authenticationstatus to unauthenticated which will trigger login page to render
-  // redirectCount will also be incremented to ensure no extra rerenders.
+  const [authenticationStatus, setAuthenticationStatus] = useState("Authenticating");
+  const [rerenderCount, setRerenderCount] = useState(0);
+
+  // After App has initially rendered HoldingPage, 
+  // useEffect() will be called and the arrow function inside is responsible for
+  // fetching to the backend which will change authenticatingStatus state.
+  // After the state changes, App will rerender, causing either 
+  // LoginPage to be render or AuthenticatedPages to be rendered.
+  // This is because App uses conditions that are based on authenticatingStatus to return a component.
+  // rerenderCount will be incremented to prevent extra fetches to the backend after App has rerendered.
   
   useEffect(() => {
 
-    // Condition prevents extra rerenders
+    // Wrapping the fetch function with a condition based on rerenderCount state
+    // will prevent fetch from being called again after App has rerender.
 
-    if (redirectCount < 1) {
+    if (rerenderCount < 1) {
       fetch("api/verifyauthenticated/")
       .then(response => {
+
+        // Based on which boolean is returned, authenticationStatus state will change accordingly.
+        // rerenderCount state will increment regardless of which boolean is returned.
 
         if (response.status == 200) {
 
@@ -40,16 +48,16 @@ function App() {
 
         }
 
-      }).then( result => {
+      }).then( boolean => {
 
-        if (result == true) {
+        if (boolean == true) {
 
-          setRedirectCount(redirectCount + 1);
+          setRerenderCount(rerenderCount + 1);
           setAuthenticationStatus("Authenticated");
 
         } else {
 
-          setRedirectCount(redirectCount + 1);
+          setRerenderCount(rerenderCount + 1);
           setAuthenticationStatus("Unauthenticated");
 
         }
@@ -59,16 +67,17 @@ function App() {
 
   })
 
-  // App will load the the first condition first
-  // Depending on the result of above function that runs after loading, app will load either the second or third condition
+  // App will render the first condition first
+  // Depending on the authenticationStatus that will change after rendering, 
+  // app will render either AuthenticatedPages or LoginPage
 
   if (authenticationStatus == "Authenticating") {
 
-    return <div>Authenticating!</div>
+    return <HoldingPage />
 
   } else if (authenticationStatus == "Authenticated") {
     
-    return <AuthenticatedApp />
+    return <AuthenticatedPages />
 
   } else if (authenticationStatus == "Unauthenticated") {
 
@@ -76,15 +85,4 @@ function App() {
 
   }
 
-}
-
-function AuthenticatedApp() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route/>
-      </Routes>
-    </BrowserRouter>
-  );
 }
