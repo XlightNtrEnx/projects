@@ -1,0 +1,62 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run django development server",
+            "detail": "",
+            "type": "process",
+
+            "command": "${config:python.pythonPath}",
+            "args": ["manage.py", "runserver"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "revealProblems": "always",
+                "focus": false,
+                "echo": true,
+                "showReuseMessage": false,
+
+                "clear": false,
+                "close": false,
+
+            },
+            "options": {
+        
+            },
+            "runOptions": {
+                "reevaluateOnRerun": true,
+                "runOn": "folderOpen",
+            },
+            
+
+        },
+        {
+            "label": "Run npm watch",
+            "detail": "",
+            "type": "shell",
+
+            "command": "npm",
+            "args": ["run", "watch"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "focus": false,
+                "echo": true,
+                "showReuseMessage": true,
+
+                "clear": false,
+                "close": false,
+
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
+            "runOptions": {
+                "runOn": "folderOpen",     
+            }
+
+            
+        }
+    ]
+}
